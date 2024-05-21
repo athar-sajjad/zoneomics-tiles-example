@@ -1,0 +1,84 @@
+#   Defining variables to store the colors for the different layers.
+#   These can be refenreced as parameters in draw.
+
+# Define the textures that will be used in the redering
+# For the POIs icons we will give the textures for each type of the POI
+# The pa_dublin, followed by the URL, and then define the sprite (for now the whole png is being used as a sprite
+# so we are using 0 as both x and y origin, and the icon itself in 18x18 pixels)
+# a different texture object for each icon as the icons are kept in a seperate png file
+
+# Will have to define styles for each icon seperately as the textures can't be directly called in the draw function of the layer
+# The style will tell the type of object it can be applied to (points for pois) and the applicable texture file
+# if the texture is not referenced in a style, then we will get a error
+styles:
+  glow:
+    base: polygons
+    lighting: vertex
+    shaders:
+      blocks:
+        color: "color.rgb += vec3(worldPosition().z / 800.);"
+  glowline:
+    base: lines
+    #mix: glow
+
+  c_polygon:
+    base: polygons
+    blend: translucent
+    animated: true
+
+  d_polygon:
+    base: polygons
+    shaders:
+      blocks:
+        color: |
+          color.a = 0;
+# define the source of the tiles we are using
+sources:
+  zones:
+    type: MVT
+    url: https://api.zoneomics.com/v2/tiles?x={x}&y={y}&z={z}&api_key=87d8bc0833417e9c0d534bf92e15cb4d7a46e416
+    max_zoom: 21
+    min_display_zoom: 10
+    max_display_zoom: 21
+global:
+  filter_zone_code: ""
+  current_city_id: 0
+
+# As we are using the Composite GeoJSON for the source, each layer drawn here is the object class, the layer pa_dublin acts as the layer from
+# source JSON if we don't explicitly define it, boundary layer here is using the data in the JSON that is followed by the "boundary": key word
+# before the features are defined
+layers:
+  zones:
+    data: { source: zones }
+    enabled: true
+    draw:
+      c_polygon:
+        # the higher the order, the greater the importance when drawn
+        interactive: true
+        order: 2
+      lines:
+        style: glowline
+        width:
+          [
+            [13, 30.0],
+            [14, 10.0],
+            [15, 7.0],
+            [16, 5.0],
+            [17, 3.0],
+            [18, 3.0],
+            [19, 3.0],
+            [20, 3.0],
+            [21, 3.0],
+          ]
+        color: [1.0, 1.0, 1.0]
+        order: 30
+    _labels:
+      draw:
+        text:
+          text_source: z
+          font:
+            family: Rubik
+            weight: 400
+            fill: "#3A3939"
+            size: 14px
+            order: 32
