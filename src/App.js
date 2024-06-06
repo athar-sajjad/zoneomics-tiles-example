@@ -9,7 +9,7 @@ export default function App() {
   const [lng, setLng] = useState(-81.8587845);
   const [latLng, setLatLng] = useState({ lat: 26.6245438, lng: -81.8587845 });
   return (
-    <div className="App">
+    <div className='App'>
       <h1>Zoneomics Tiles API example</h1>
       <div
         style={{
@@ -22,14 +22,14 @@ export default function App() {
       >
         <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
           <input
-            placeholder="lat"
+            placeholder='lat'
             value={lat}
             onChange={(e) => {
               setLat(e.target.value);
             }}
           />
           <input
-            placeholder="lng"
+            placeholder='lng'
             value={lng}
             onChange={(e) => {
               setLng(e.target.value);
@@ -80,7 +80,7 @@ export default function App() {
             }),
             new MVTLayer({
               id: "MVTLayer",
-              data: "https://api.zoneomics.com/v2/tiles?x={x}&y={y}&z={z}&api_key=87d8bc0833417e9c0d534bf92e15cb4d7a46e416",
+              data: `https://api.zoneomics.com/v2/tiles?x={x}&y={y}&z={z}&api_key=${process.env.REACT_APP_API_KEY}`,
               minZoom: 0,
               maxZoom: 20,
               stroked: true,
