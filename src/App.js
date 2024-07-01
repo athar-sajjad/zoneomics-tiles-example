@@ -105,7 +105,7 @@ export default function App() {
                   var hex = intToRGBA(hash, 0.8);
                   return hex;
                 }
-                const color = stringToColor(f.properties.z);
+                const color = stringToColor(f.properties.zone_code);
                 return color;
               },
             }),
